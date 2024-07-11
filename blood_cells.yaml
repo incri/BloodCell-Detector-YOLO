@@ -1,0 +1,7 @@
+
+train: ../BloodCell-Detection-Datatset/train/images
+test: ../BloodCell-Detection-Datatset/test/images
+val: ../BloodCell-Detection-Datatset/valid/images
+
+nc: 3  # number of classes
+names: ['Platelets', 'RBC', 'WBC']

@@ -1,27 +1,34 @@
-# routers/yolo.py
-from fastapi import APIRouter, HTTPException, UploadFile, File, Form
-from pydantic import BaseModel
+from fastapi import APIRouter, HTTPException, Form
 from typing import List
-
-from models.yolo import YoloRequest, YoloResponse
+import requests
+from services.models.yolo import process_images
 
 router = APIRouter()
 
 @router.post("/process-images/")
-async def process_images(yolo_request: YoloRequest):
-    # Validate auth_token (you might want to implement authentication logic here)
+async def process_images_endpoint(
+    bloodtest_id: str = Form(...), 
+    auth_token: str = Form(...), 
+    image_urls: str = Form(...)
+):
+    try:
+        # Convert image_urls from comma-separated string to list
+        image_urls = image_urls.split(',')
 
-    # Access bloodtest_id and images
-    bloodtest_id = yolo_request.bloodtest_id
-    images = yolo_request.images
+        # Fetch images from URLs
+        images = []
+        for url in image_urls:
+            response = requests.get(url)
+            response.raise_for_status()
+            images.append(response.content)
 
-    # Process the images (for demonstration, we will print the details)
-    print(f"Processing images for bloodtest_id: {bloodtest_id}")
-    for image in images:
-        print(f"Received image of size {len(image)} bytes")
+        # Process images using YOLO
+        result = process_images(images)
 
-    # Simulate YOLO processing and prepare response
-    labeled_images = ["image1_labeled.jpg", "image2_labeled.jpg"]  # Example of labeled images
-    counts = {"RBC": 7, "WBC": 1, "Platelets": 2}  # Example counts
-
-    return YoloResponse(labeled_images=labeled_images, counts=counts)
+        return {"message": "Processing complete", "counts": result['counts']}
+    except requests.exceptions.RequestException as e:
+        print(f"Error fetching images: {e}")
+        raise HTTPException(status_code=400, detail=f"Error fetching images: {e}")
+    except Exception as e:
+        print(f"Error processing images: {e}")
+        raise HTTPException(status_code=500, detail=f"Error processing images: {e}")

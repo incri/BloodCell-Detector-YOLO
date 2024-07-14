@@ -10,7 +10,7 @@ import shutil
 router = APIRouter()
 
 # Define the directory to save YOLOv5 detection results
-results_dir = "result_images"
+results_dir = "C:\\Users\\Incri\\projects\\BCD\\BloodCell-Detector-Backend\\media\\lab\\result-images"
 
 @router.post("/process-images/")
 async def process_images_endpoint(
@@ -92,7 +92,6 @@ async def process_images_endpoint(
             total_wbcs += wbc_count
 
         # Get the base URL of the request to dynamically determine the port
-        base_url = str(request.base_url)
 
         # Collect processed image paths and rename them with UUIDs
         processed_image_paths = []
@@ -101,7 +100,7 @@ async def process_images_endpoint(
                 new_file_name = f"{uuid.uuid4().hex}{os.path.splitext(file_name)[1]}"
                 new_file_path = os.path.join(results_dir, new_file_name)
                 shutil.move(os.path.join(temp_dir, file_name), new_file_path)
-                processed_image_paths.append(f"{base_url}result_images/{new_file_name}")
+                processed_image_paths.append(f"http://127.0.0.1:8000/media/lab/result-images/{new_file_name}")
 
         return {
             "message": "Processing complete",

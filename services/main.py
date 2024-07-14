@@ -8,7 +8,7 @@ app = FastAPI()
 app.include_router(yolo.router)
 
 # Serve the result_images directory
-app.mount("/result_images", StaticFiles(directory="result_images"), name="result_images")
+app.mount("/result_images", StaticFiles(directory="C:\\Users\\Incri\\projects\\BCD\\BloodCell-Detector-Backend\\media\\lab\\result-images"), name="result_images")
 
 if __name__ == "__main__":
     import uvicorn

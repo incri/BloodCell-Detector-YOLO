@@ -46,7 +46,7 @@ async def process_images_endpoint(
             "--weights", "yolov5/runs/train/exp5/weights/best.pt",
             "--img", "640",
             "--conf", "0.25",
-            "--source", *local_image_paths,  # Pass local file paths as the source
+            "--source", temp_dir,  # Pass local file paths as the source
             "--project", temp_dir,  # Use a temp directory for initial results
             "--name", ".",  # Specify name to save directly in the temp_dir
             "--exist-ok"  # Allow existing project/name
@@ -73,35 +73,44 @@ async def process_images_endpoint(
         # Define regex pattern to extract counts of RBCs, WBCs, and Platelets
         pattern = r"(\d+) Plateletss?, (\d+) RBCs?, (\d+) WBCs?"
 
-        # Use re.search to find the pattern in the stderr output
-        match = re.search(pattern, stderr_output)
+        # Initialize counters
+        total_platelets = 0
+        total_rbcs = 0
+        total_wbcs = 0
 
-        if match:
-            platelets_count = int(match.group(1))
-            rbc_count = int(match.group(2))
-            wbc_count = int(match.group(3))
+        # Use re.findall to find all occurrences of the pattern in the stderr output
+        matches = re.findall(pattern, stderr_output)
 
-            # Get the base URL of the request to dynamically determine the port
-            base_url = str(request.base_url)
+        # Process each match and accumulate counts
+        for match in matches:
+            platelets_count = int(match[0])
+            rbc_count = int(match[1])
+            wbc_count = int(match[2])
 
-            # Collect processed image paths and rename them with UUIDs
-            processed_image_paths = []
-            for file_name in os.listdir(temp_dir):
-                if file_name.endswith(".jpg") or file_name.endswith(".png"):
-                    new_file_name = f"{uuid.uuid4().hex}{os.path.splitext(file_name)[1]}"
-                    new_file_path = os.path.join(results_dir, new_file_name)
-                    shutil.move(os.path.join(temp_dir, file_name), new_file_path)
-                    processed_image_paths.append(f"{base_url}result_images/{new_file_name}")
+            total_platelets += platelets_count
+            total_rbcs += rbc_count
+            total_wbcs += wbc_count
 
-            return {
-                "message": "Processing complete",
-                "platelets_count": platelets_count,
-                "rbc_count": rbc_count,
-                "wbc_count": wbc_count,
-                "processed_images": processed_image_paths
-            }
-        else:
-            raise HTTPException(status_code=500, detail="Counts not found in the YOLOv5 output")
+        # Get the base URL of the request to dynamically determine the port
+        base_url = str(request.base_url)
+
+        # Collect processed image paths and rename them with UUIDs
+        processed_image_paths = []
+        for file_name in os.listdir(temp_dir):
+            if file_name.endswith(".jpg") or file_name.endswith(".png"):
+                new_file_name = f"{uuid.uuid4().hex}{os.path.splitext(file_name)[1]}"
+                new_file_path = os.path.join(results_dir, new_file_name)
+                shutil.move(os.path.join(temp_dir, file_name), new_file_path)
+                processed_image_paths.append(f"{base_url}result_images/{new_file_name}")
+
+        return {
+            "message": "Processing complete",
+            "platelets_count": total_platelets,
+            "rbc_count": total_rbcs,
+            "wbc_count": total_wbcs,
+            "processed_images": processed_image_paths,
+            "output": stderr_output
+        }
 
     except requests.exceptions.RequestException as e:
         print(f"Error fetching images: {e}")

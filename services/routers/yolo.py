@@ -14,9 +14,6 @@ results_dir = "C:\\Users\\Incri\\projects\\BCD\\BloodCell-Detector-Backend\\medi
 
 @router.post("/process-images/")
 async def process_images_endpoint(
-    request: Request,
-    bloodtest_id: str = Form(...),
-    auth_token: str = Form(...),
     image_urls: str = Form(...)
 ):
     try:
@@ -108,7 +105,6 @@ async def process_images_endpoint(
             "rbc_count": total_rbcs,
             "wbc_count": total_wbcs,
             "processed_images": processed_image_paths,
-            "output": stderr_output
         }
 
     except requests.exceptions.RequestException as e:

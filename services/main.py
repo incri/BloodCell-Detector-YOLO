@@ -1,4 +1,5 @@
 from fastapi import FastAPI
+from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from services.routers import yolo  # Import your router from the routers module
 
@@ -6,6 +7,20 @@ app = FastAPI()
 
 # Include your YOLO router
 app.include_router(yolo.router)
+
+# CORS settings
+origins = [
+    "http://localhost",  # Replace with your Django frontend URL
+    "http://localhost:8000",  # Example: If Django runs on port 8000
+]
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=origins,
+    allow_credentials=True,
+    allow_methods=["GET", "POST", "PUT", "DELETE"],
+    allow_headers=["*"],
+)
 
 # Serve the result_images directory
 app.mount("/result_images", StaticFiles(directory="C:\\Users\\Incri\\projects\\BCD\\BloodCell-Detector-Backend\\media\\lab\\result-images"), name="result_images")

@@ -58,37 +58,35 @@ async def process_images_endpoint(
         # Check for errors
         if process.returncode != 0:
             error_message = stderr.decode("utf-8").strip()
-            print(f"Error: {error_message}")
             raise Exception(f"YOLOv5 process error: {error_message}")
 
         # Log stdout and stderr for debugging (optional)
         stdout_output = stdout.decode("utf-8").strip()
         stderr_output = stderr.decode("utf-8").strip()
-        print(f"STDOUT: {stdout_output}")
-        print(f"STDERR: {stderr_output}")
 
-        # Define regex pattern to extract counts of RBCs, WBCs, and Platelets
-        pattern = r"(\d+) Plateletss?, (\d+) RBCs?, (\d+) WBCs?"
 
         # Initialize counters
-        total_platelets = 0
         total_rbcs = 0
         total_wbcs = 0
+        total_platelets = 0
 
-        # Use re.findall to find all occurrences of the pattern in the stderr output
-        matches = re.findall(pattern, stderr_output)
+        # Regular expression patterns to extract counts
+        pattern_rbc = r"(\d+) RBC"
+        pattern_wbc = r"(\d+) WBC"
+        pattern_platelets = r"(\d+) Platelets"
 
-        # Process each match and accumulate counts
-        for match in matches:
-            platelets_count = int(match[0])
-            rbc_count = int(match[1])
-            wbc_count = int(match[2])
+        # Search for matches in the output text
+        matches_rbc = re.findall(pattern_rbc, stderr_output)
+        matches_wbc = re.findall(pattern_wbc, stderr_output)
+        matches_platelets = re.findall(pattern_platelets, stderr_output)
 
-            total_platelets += platelets_count
-            total_rbcs += rbc_count
-            total_wbcs += wbc_count
+        # Sum up the counts
+        total_rbcs += sum(int(count) for count in matches_rbc)
+        total_wbcs += sum(int(count) for count in matches_wbc)
+        total_platelets += sum(int(count) for count in matches_platelets)
 
-        # Get the base URL of the request to dynamically determine the port
+        print(f"{total_rbcs} {total_wbcs}  {total_platelets}")
+
 
         # Collect processed image paths and rename them with UUIDs
         processed_image_paths = []

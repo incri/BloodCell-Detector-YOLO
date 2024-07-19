@@ -1,55 +1,57 @@
-from PIL import Image, ImageDraw
+from PIL import Image, ImageDraw, ImageFont
 
-def draw_labels_on_image(image_path, label_path, output_path, bbox_size=(50, 50)):
-    """
-    Draws bounding boxes on the image based on the label file and saves the image.
-    
-    Args:
-        image_path (str): Path to the input image.
-        label_path (str): Path to the label file containing coordinates.
-        output_path (str): Path to save the output image.
-        bbox_size (tuple): Size of the bounding box to draw (width, height).
-    """
-    # Load the image
+def draw_yolov5_labels(image_path, yolov5_labels_path, output_path, font_size=20):
+    # Open the image
     image = Image.open(image_path)
     draw = ImageDraw.Draw(image)
     
-    # Load the labels
-    with open(label_path, 'r') as file:
+    # Get image dimensions
+    image_width, image_height = image.size
+    
+    # Load labels from the file
+    with open(yolov5_labels_path, 'r') as file:
         labels = file.readlines()
-
-    # Extract bounding box size
-    bbox_width, bbox_height = bbox_size
-
-    # Iterate through labels and draw bounding boxes
+    
+    # Load a font
+    try:
+        font = ImageFont.truetype("arial.ttf", font_size)
+    except IOError:
+        font = ImageFont.load_default()
+    
+    # Draw each label
     for label in labels:
-        # Parse the coordinates
-        try:
-            x_center, y_center = map(int, label.strip().split())
-        except ValueError:
-            print(f"Skipping invalid label: {label.strip()}")
-            continue
-
-        # Convert center coordinates to bounding box coordinates
-        img_width, img_height = image.size
-        x1 = int(x_center - bbox_width / 2)
-        y1 = int(y_center - bbox_height / 2)
-        x2 = int(x_center + bbox_width / 2)
-        y2 = int(y_center + bbox_height / 2)
-
-        # Draw the rectangle
-        draw.rectangle([x1, y1, x2, y2], outline='red', width=3)
-
-    # Save the output image
+        cls, x_center, y_center, width, height = map(float, label.strip().split())
+        
+        # Convert normalized coordinates to pixel values
+        x_center = x_center * image_width
+        y_center = y_center * image_height
+        width = width * image_width
+        height = height * image_height
+        
+        # Calculate bounding box coordinates
+        left = x_center - width / 2
+        top = y_center - height / 2
+        right = x_center + width / 2
+        bottom = y_center + height / 2
+        
+        # Draw the bounding box
+        draw.rectangle([left, top, right, bottom], outline="red", width=2)
+        
+        # Draw the class label
+        text = str(int(cls))
+        text_bbox = draw.textbbox((0, 0), text, font=font)
+        text_width, text_height = text_bbox[2] - text_bbox[0], text_bbox[3] - text_bbox[1]
+        text_x = x_center - text_width / 2
+        text_y = top - text_height - 5  # Adjust text position above the bounding box
+        draw.text((text_x, text_y), text, fill="red", font=font)
+    
+    # Save the annotated image
     image.save(output_path)
-    print(f"Image saved to {output_path}")
+    print(f"Annotated image saved to {output_path}")
 
 # Example usage
-if __name__ == "__main__":
-    # Replace these paths with your own
-    image_path = r'RBC-12-Dataset\Dataset\1.jpg'
-    label_path = r'RBC-12-Dataset\Label\1.txt'
-    output_path = r'output_image.jpg'
-    
-    # You can adjust bbox_size to your needs
-    draw_labels_on_image(image_path, label_path, output_path, bbox_size=(50, 50))
+image_path = r'RBC-12-Dataset/Annotated/48.jpg'
+yolov5_labels_path = r'RBC-12-Dataset/yolov5_labels/48.txt'
+output_path = 'annotated_image.jpg'
+
+draw_yolov5_labels(image_path, yolov5_labels_path, output_path)

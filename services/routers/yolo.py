@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HTTPException, Form, Request
+from fastapi import APIRouter, HTTPException, Form
 import subprocess
 import requests
 import os
@@ -73,7 +73,7 @@ async def process_images_endpoint(
         # Regular expression patterns to extract counts
         pattern_rbc = r"(\d+) RBC"
         pattern_wbc = r"(\d+) WBC"
-        pattern_platelets = r"(\d+) Platelets"
+        pattern_platelets = r"(\d+) Platelets" 
 
         # Search for matches in the output text
         matches_rbc = re.findall(pattern_rbc, stderr_output)

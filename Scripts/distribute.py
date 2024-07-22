@@ -60,9 +60,9 @@ def distribute_files(source_folder, labels_folder, dest_folder, ratios):
     copy_files(valid_images, 'valid')
 
 # Define your parameters
-source_folder = 'RBC-12-Dataset/Annotated'
-labels_folder = 'RBC-12-Dataset/yolov5_labels'
-dest_folder = 'RBC-12-Dataset'
+source_folder = 'RBC-9-Dataset/1Elliptocyte1211/'
+labels_folder = 'RBC-9-Dataset/labels/'
+dest_folder = 'yolo_dataset/Elliptocyte/'
 ratios = (0.7, 0.2, 0.1)  # 70% train, 20% test, 10% valid
 
 distribute_files(source_folder, labels_folder, dest_folder, ratios)

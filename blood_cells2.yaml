@@ -1,6 +1,0 @@
-train: ../RBC-12-Dataset/train/images
-test: ..RBC-12-Dataset/test/images
-val: ../RBC-12-Dataset/valid/images
-
-nc: 12  # number of classes
-names: ["Normal cell","Macrocyte","Microcyte","Spherocyte","Target cell","Stomatocyte","Ovalocyte","Teardrop","Burr cell","Schistocyte","uncategorised","Hypochromia","Elliptocyte"]

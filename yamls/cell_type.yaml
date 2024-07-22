@@ -1,0 +1,6 @@
+train: ../yolo_dataset/Elliptocyte/train/images
+test: ../yolo_dataset/Elliptocyte/test/images
+val: ../yolo_dataset/Elliptocyte/valid/images
+
+nc: 1  # number of classes
+names: ["Elliptocyte"]

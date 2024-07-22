@@ -50,8 +50,8 @@ def draw_yolov5_labels(image_path, yolov5_labels_path, output_path, font_size=20
     print(f"Annotated image saved to {output_path}")
 
 # Example usage
-image_path = r'RBC-12-Dataset/Annotated/48.jpg'
-yolov5_labels_path = r'RBC-12-Dataset/yolov5_labels/48.txt'
+image_path = r'RBC-9-Dataset/1Elliptocyte1211/ADB_B2_0004 objek#56.png'
+yolov5_labels_path = r'RBC-9-Dataset/labels/ADB_B2_0004 objek#56.txt'
 output_path = 'annotated_image.jpg'
 
 draw_yolov5_labels(image_path, yolov5_labels_path, output_path)

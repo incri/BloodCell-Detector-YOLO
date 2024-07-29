@@ -22,7 +22,7 @@ def create_labels(image_folder, label_folder):
                 height = 1.0
 
                 # Create the label content
-                label_content = f"0 {x_center} {y_center} {width} {height}\n"
+                label_content = f"8 {x_center} {y_center} {width} {height}\n"
 
                 # Save the label to a file with the same name as the image
                 label_path = os.path.join(label_folder, image_name.replace('.png', '.txt'))
@@ -33,7 +33,7 @@ def create_labels(image_folder, label_folder):
                 print(f"Failed to read image: {image_path}")
 
 # Define the paths
-image_folder = 'RBC-9-dataset/1Elliptocyte1211'
+image_folder = r'C:\Users\Incri\projects\BCD\BloodCell-Detector-Yolo\Dataset_YOLO\rfdz6wfzn4-1\9_acantocyte_354'
 label_folder = os.path.join(image_folder, 'labels')
 
 # Create labels

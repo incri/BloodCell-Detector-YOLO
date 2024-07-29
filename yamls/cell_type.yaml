@@ -1,6 +1,22 @@
-train: ../yolo_dataset/Elliptocyte/train/images
-test: ../yolo_dataset/Elliptocyte/test/images
-val: ../yolo_dataset/Elliptocyte/valid/images
+train: ../Dataset_YOLO/Blood_Cell_Type_Dataset/train/images
+test: ../Dataset_YOLO/Blood_Cell_Type_Dataset/test/images
+val: ../Dataset_YOLO/Blood_Cell_Type_Dataset/valid/images
 
-nc: 1  # number of classes
-names: ["Elliptocyte"]
+nc: 16  # Updated number of classes
+names:
+  0: "Normal cell"
+  1: "Macrocyte"
+  2: "Microcyte"
+  3: "Spherocyte"
+  4: "Target cell"
+  5: "Stomatocyte"
+  6: "Ovalocyte"
+  7: "Teardrop"
+  8: "Burr cell"
+  9: "Schistocyte"
+  10: "Uncategorised"
+  11: "Hypochromia"
+  12: "Elliptocyte"
+  13: "pencil"
+  14: "SPERO bulat"
+  15: "acantocyte"

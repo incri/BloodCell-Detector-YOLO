@@ -6,12 +6,12 @@ from services.routers import yolo, test  # Import your router from the routers m
 app = FastAPI()
 
 # Include your YOLO router
-app.include_router(test.router)
+app.include_router(yolo.router)
 
 # CORS settings
 origins = [
-    "http://localhost",  # Replace with your Django frontend URL
-    "http://localhost:8000",  # Example: If Django runs on port 8000
+    "*",  # Replace with your Django frontend URL
+    "*",  # Example: If Django runs on port 8000
 ]
 
 app.add_middleware(

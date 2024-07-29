@@ -6,7 +6,7 @@ from services.routers import yolo, test  # Import your router from the routers m
 app = FastAPI()
 
 # Include your YOLO router
-app.include_router(test.router)
+app.include_router(yolo.router)
 
 # CORS settings
 origins = [

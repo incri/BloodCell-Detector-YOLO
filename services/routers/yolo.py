@@ -40,7 +40,7 @@ async def process_images_endpoint(
         # Prepare the command to call YOLOv5 detection script
         yolo_command = [
             python_executable, "yolov5/detect.py",
-            "--weights", "yolov5/runs/train/exp5/weights/best.pt",
+            "--weights", "yolov5/runs/train/blood_cell_count_model/weights/best.pt",
             "--img", "640",
             "--conf", "0.25",
             "--source", temp_dir,  # Pass local file paths as the source

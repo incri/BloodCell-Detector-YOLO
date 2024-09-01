@@ -99,9 +99,14 @@ async def process_images_endpoint(
 
         return {
             "message": "Processing complete",
+            "detected":{
+
             "platelets_count": total_platelets,
             "rbc_count": total_rbcs,
             "wbc_count": total_wbcs,
+
+            },
+            
             "processed_images": processed_image_paths,
         }
 
@@ -260,6 +265,8 @@ async def process_images_endpoint(
 
         return {
             "message": "Processing complete",
+            "detected" : {
+
             "normal_cell_count": total_normal_cell,
             "macrocyte_count": total_macrocyte,
             "microcyte_count": total_microcyte,
@@ -276,6 +283,8 @@ async def process_images_endpoint(
             "pencil_count": total_pencil,
             "spero_bulat_count": total_spero_bulat,
             "acantocyte_count": total_acantocyte,
+
+            },
             "processed_images": processed_image_paths,
         }
 

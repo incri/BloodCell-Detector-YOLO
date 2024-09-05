@@ -10,15 +10,21 @@ import shutil
 router = APIRouter()
 
 # Define the directory to save YOLOv5 detection results
-results_dir = "C:\\Users\\Incri\\projects\\BCD\\BloodCell-Detector-Backend\\media\\lab\\result-images"
+
+
 
 @router.post("/process-images/")
 async def process_images_endpoint(
     image_urls: str = Form(...)
+    
 ):
     try:
         # Convert image_urls from comma-separated string to list
         image_urls = image_urls.split(',')
+        result_dir = os.getenv("RESULT_DIR")
+        env_activate = os.getenv("ENV_ACTIVATE")
+        processed_image_base_url = os.getenv("PROCESSED_IMAGE_PATH")
+
 
         # Create a temporary directory to save images
         temp_dir = tempfile.mkdtemp()
@@ -35,7 +41,7 @@ async def process_images_endpoint(
             local_image_paths.append(image_path)
 
         # Path to the Python executable in your environment
-        python_executable = "C:\\Users\\Incri\\projects\\env\\BCD_YOLO_env\\Scripts\\python.exe"
+        python_executable = env_activate
 
         # Prepare the command to call YOLOv5 detection script
         yolo_command = [
@@ -93,9 +99,9 @@ async def process_images_endpoint(
         for file_name in os.listdir(temp_dir):
             if file_name.endswith(".jpg") or file_name.endswith(".png"):
                 new_file_name = f"{uuid.uuid4().hex}{os.path.splitext(file_name)[1]}"
-                new_file_path = os.path.join(results_dir, new_file_name)
+                new_file_path = os.path.join(result_dir, new_file_name)
                 shutil.move(os.path.join(temp_dir, file_name), new_file_path)
-                processed_image_paths.append(f"http://127.0.0.1:8000/media/lab/result-images/{new_file_name}")
+                processed_image_paths.append(f"{processed_image_base_url}{new_file_name}")
 
         return {
             "message": "Processing complete",
@@ -132,6 +138,10 @@ async def process_images_endpoint(
     try:
         # Convert image_urls from comma-separated string to list
         image_urls = image_urls.split(',')
+        result_dir = os.getenv("RESULT_DIR")
+        env_activate = os.getenv("ENV_ACTIVATE")
+        processed_image_base_url = os.getenv("PROCESSED_IMAGE_PATH")
+
 
         # Create a temporary directory to save images
         temp_dir = tempfile.mkdtemp()
@@ -148,7 +158,7 @@ async def process_images_endpoint(
             local_image_paths.append(image_path)
 
         # Path to the Python executable in your environment
-        python_executable = "C:\\Users\\Incri\\projects\\env\\BCD_YOLO_env\\Scripts\\python.exe"
+        python_executable = env_activate
 
         # Prepare the command to call YOLOv5 detection script
         yolo_command = [
@@ -259,9 +269,9 @@ async def process_images_endpoint(
         for file_name in os.listdir(temp_dir):
             if file_name.endswith(".jpg") or file_name.endswith(".png"):
                 new_file_name = f"{uuid.uuid4().hex}{os.path.splitext(file_name)[1]}"
-                new_file_path = os.path.join(results_dir, new_file_name)
+                new_file_path = os.path.join(result_dir, new_file_name)
                 shutil.move(os.path.join(temp_dir, file_name), new_file_path)
-                processed_image_paths.append(f"http://127.0.0.1:8000/media/lab/result-images/{new_file_name}")
+                processed_image_paths.append(f"{processed_image_base_url}{new_file_name}")
 
         return {
             "message": "Processing complete",

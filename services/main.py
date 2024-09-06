@@ -2,9 +2,12 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 from services.routers import yolo, test  # Import your router from the routers module
+from dotenv import load_dotenv
+import os
 
 app = FastAPI()
 
+load_dotenv()
 # Include your YOLO router
 app.include_router(yolo.router)
 

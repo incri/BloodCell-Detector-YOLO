@@ -1,0 +1,3 @@
+RESULT_DIR = "C:\\Users\\Incri\\projects\\BCD\\BloodCell-Detector-Backend\\media\\lab\\result-images"
+ENV_ACTIVATE = "C:\\Users\\Incri\\projects\\env\\BCD_YOLO_env\\Scripts\\python.exe"
+PROCESSED_IMAGE_PATH = "http://127.0.0.1:8000/media/lab/result-images/"

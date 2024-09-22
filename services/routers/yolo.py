@@ -132,23 +132,13 @@ async def process_blood_types_images_endpoint(
             temp_dir
         )
 
+
         patterns = {
-            'normal_cell': r"(\d+) Normal cell",
-            'macrocyte': r"(\d+) Macrocyte",
-            'microcyte': r"(\d+) Microcyte",
-            'spherocyte': r"(\d+) Spherocyte",
-            'target_cell': r"(\d+) Target cell",
-            'stomatocyte': r"(\d+) Stomatocyte",
-            'ovalocyte': r"(\d+) Ovalocyte",
-            'teardrop': r"(\d+) Teardrop",
-            'burr_cell': r"(\d+) Burr cell",
-            'schistocyte': r"(\d+) Schistocyte",
-            'uncategorised': r"(\d+) Uncategorised",
-            'hypochromia': r"(\d+) Hypochromia",
-            'elliptocyte': r"(\d+) Elliptocyte",
-            'pencil': r"(\d+) pencil",
-            'spero_bulat': r"(\d+) SPERO bulat",
-            'acantocyte': r"(\d+) acantocyte"
+            'basophil': r"(\d+) basophil",
+            'eosinophil': r"(\d+) eosinophil",
+            'lymphocyte': r"(\d+) lymphocyte",
+            'monocyte': r"(\d+) monocyte",
+            'neutrophil': r"(\d+) neutrophil",
         }
         counts = extract_counts(stderr_output, patterns)
 

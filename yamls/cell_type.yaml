@@ -1,22 +1,13 @@
-train: ../Dataset_YOLO/Blood_Cell_Type_Dataset/train/images
-test: ../Dataset_YOLO/Blood_Cell_Type_Dataset/test/images
-val: ../Dataset_YOLO/Blood_Cell_Type_Dataset/valid/images
+train: ../Dataset_YOLO/wbc_type_count_all/differential wbc.v1i.yolov5pytorch/train/images
+val: ../Dataset_YOLO/wbc_type_count_all/differential wbc.v1i.yolov5pytorch/valid/images
+test: ../Dataset_YOLO/wbc_type_count_all/differential wbc.v1i.yolov5pytorch/test/images
 
-nc: 16  # Updated number of classes
-names:
-  0: "Normal cell"
-  1: "Macrocyte"
-  2: "Microcyte"
-  3: "Spherocyte"
-  4: "Target cell"
-  5: "Stomatocyte"
-  6: "Ovalocyte"
-  7: "Teardrop"
-  8: "Burr cell"
-  9: "Schistocyte"
-  10: "Uncategorised"
-  11: "Hypochromia"
-  12: "Elliptocyte"
-  13: "pencil"
-  14: "SPERO bulat"
-  15: "acantocyte"
+nc: 5
+names: ['basophil', 'eosinophil', 'lymphocyte', 'monocyte', 'neutrophil']
+
+roboflow:
+  workspace: project
+  project: differential-wbc
+  version: 1
+  license: CC BY 4.0
+  url: https://universe.roboflow.com/project/differential-wbc/dataset/1

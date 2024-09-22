@@ -1,7 +1,6 @@
-
-train: ../BloodCell-Detection-Datatset/train/images
-test: ../BloodCell-Detection-Datatset/test/images
-val: ../BloodCell-Detection-Datatset/valid/images
+train: ../Dataset_YOLO/blood_cell_count_all/BCCD.v4-416x416_aug.yolov5pytorch/train/images
+val: ../Dataset_YOLO/blood_cell_count_all/BCCD.v4-416x416_aug.yolov5pytorch/valid/images
+test: ../Dataset_YOLO/blood_cell_count_all/BCCD.v4-416x416_aug.yolov5pytorch/test/images
 
 nc: 3  # number of classes
 names: ['Platelets', 'RBC', 'WBC']

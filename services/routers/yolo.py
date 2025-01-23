@@ -40,7 +40,8 @@ def run_yolo_detection(env_activate, weights_path, temp_dir):
         "--source", temp_dir,
         "--project", temp_dir,
         "--name", ".",
-        "--exist-ok"
+        "--exist-ok",
+        "--hide-labels"
     ]
     process = subprocess.Popen(yolo_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE)
     stdout, stderr = process.communicate()
